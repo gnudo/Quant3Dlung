@@ -1,0 +1,11 @@
+#!/bin/bash
+
+export PYTHONPATH=$PYTHONPATH:/sls/X02DA/data/e13657/Data20/GWS-3-SL6/VTK/VTKBin/Wrapping/;
+export PYTHONPATH=$PYTHONPATH:/sls/X02DA/data/e13657/Data20/GWS-3-SL6/VTK/VTKBin/Wrapping/Python;
+export PYTHONPATH=$PYTHONPATH:/sls/X02DA/data/e13657/Data20/GWS-3-SL6/VTK/VTKBin/Wrapping/Python/vtk;
+export PYTHONPATH=$PYTHONPATH:/sls/X02DA/data/e13657/Data20/GWS-3-SL6/VTK/VTKBin/Wrapping/PythonCore/;
+export PYTHONPATH=$PYTHONPATH:/sls/X02DA/data/e13657/Data20/GWS-3-SL6/VTK/VTKBin/bin/;
+export PYTHONPATH=$PYTHONPATH:/sls/X02DA/data/e13657/Data20/GWS-3-SL6/VTK/VTKBin/lib/;
+
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/sls/X02DA/data/e13657/Data20/GWS-3-SL6/VTK/VTKBin/bin/;
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/sls/X02DA/data/e13657/Data20/GWS-3-SL6/VTK/VTKBin/lib/;

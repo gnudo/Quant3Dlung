@@ -1,0 +1,418 @@
+diff --git a/src/mepp/viewer.cpp b/src/mepp/viewer.cpp
+index 6d5c402..7631491 100644
+--- a/src/mepp/viewer.cpp
++++ b/src/mepp/viewer.cpp
+@@ -311,209 +311,209 @@
+ 
+ void Viewer::render(bool sel, bool grab)
+ {
+-	if (axisIsDrawn() && sel)
+-		drawAxis();
+-
+-	// shading option
+-	if (m_SmoothShading)
+-	{
+-		glShadeModel(GL_SMOOTH);
+-	}
+-	else
+-	{
+-		glShadeModel(GL_FLAT);
+-	}
+-
+-	// culling option
+-	if (m_Culling)
+-		glEnable(GL_CULL_FACE);
+-	else
+-		glDisable(GL_CULL_FACE);
+-
+-	// polygon mode (point, line or fill)
+-	glPolygonMode(GL_FRONT_AND_BACK,m_PolygonMode);
+-
+-	if ( m_UseVertexColor || m_UseFaceColor )
+-	{
+-		// here
+-		//if ( !glIsEnabled(GL_COLOR_MATERIAL) )
+-		{
+-			glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+-			glEnable(GL_COLOR_MATERIAL);
+-		}
+-	}
+-	else
+-	{
+-		// here
+-		//if ( glIsEnabled(GL_COLOR_MATERIAL) )
+-		{
+-			glDisable(GL_COLOR_MATERIAL);
+-			change_material(m_last_material);
+-		}
+-
+-		// set mesh color
+-		glColor3f(m_MeshColor[0],m_MeshColor[1],m_MeshColor[2]);
+-	}
+-
+-	// antialiasing
+-	if (m_Antialiasing)
+-	{
+-		glEnable(GL_LINE_SMOOTH);
+-		//glEnable(GL_BLEND);
+-		//glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+-		glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
+-		glLineWidth(1.5f);
+-	}
+-	else
+-	{
+-		glDisable(GL_LINE_SMOOTH);
+-		//glDisable(GL_BLEND);
+-		glLineWidth(1.0f);
+-	}
+-
+-	// drawing
+-	glPushMatrix();
+-
+-	// User's pre_draw - Matrices protected - Attributes NOT protected
+-	if (((mainwindow *)getParent())->activeMdiChild() == this)
+-	{
+-		glPushMatrix();
+-			for (int p=0; p<lplugin.size(); p++)
+-				lplugin[p]->pre_draw();
+-		glPopMatrix();
+-	}
+-
+-	if (m_SuperimposeEdges || m_SuperimposeVertices || m_SuperimposeVerticesBig)
+-	{
+-		// enable polygon offset
+-		glEnable(GL_POLYGON_OFFSET_FILL);
+-		glPolygonOffset(3.0f,1.0f);
+-	}
+-
+-	// draw the mesh
+-	if ((m_Moving && m_DrawBoundingBoxWhenMoving) ||
+-			m_DrawBoundingBox)
+-	{
+-		glColor3f(1.0f,0.0f,0.0f);
+-		glDisable(GL_LIGHTING);
+-		scene_ptr->get_polyhedron()->gl_draw_bounding_box();
+-		glColor3f(m_MeshColor[0],m_MeshColor[1],m_MeshColor[2]); // new
+-
+-// temp MT
+-		/*double xmin, ymin, zmin, xmax, ymax, zmax;
+-		xmin = scene_ptr->get_polyhedron()->xmin();
+-		xmax = scene_ptr->get_polyhedron()->xmax();
+-		ymin = scene_ptr->get_polyhedron()->ymin();
+-		ymax = scene_ptr->get_polyhedron()->ymax();
+-		zmin = scene_ptr->get_polyhedron()->zmin();
+-		zmax = scene_ptr->get_polyhedron()->zmax();
+-
+-		glColor3f(0.f, 1.f, 0.f); // green
+-		glBegin(GL_LINES);
+-				glVertex3d(-0.01f, -0.01f, -0.01f);
+-				glVertex3d(1.01f, 1.01f, 1.01f);
+-		glEnd();*/
+-// temp MT
+-	}
+-
+-	// lighting option
+-	if (m_Lighting)
+-	{
+-		m_UseNormals = true;
+-		glEnable(GL_LIGHTING);
+-	}
+-	else
+-	{
+-		m_UseNormals = false;
+-		glDisable(GL_LIGHTING);
+-	}
+-
+-	if (!m_Moving || !m_DrawBoundingBoxWhenMoving)
+-	{
+-		scene_ptr->get_polyhedron()->gl_draw(m_SmoothShading, m_UseNormals, m_UseVertexColor, m_UseFaceColor, m_UseTexture);
+-
+-		if (show_normals)
+-		{
+-			glDisable(GL_LIGHTING);
+-				glColor3f(1.f, 0.f, 0.f);
+-				scene_ptr->get_polyhedron()->draw_normals();
+-			glEnable(GL_LIGHTING);
+-		}
+-	}
+-
+-	// disable lighting
+-	if (m_SuperimposeEdges || m_SuperimposeVertices || m_SuperimposeVerticesBig)
+-	{
+-        glDisable(GL_LIGHTING);
+-	}
+-
+-	// draw the mesh once again with a few options desactivated
+-	if (m_SuperimposeEdges && !(m_Moving && m_DrawBoundingBoxWhenMoving))
+-	{
+-		// set line mode
+-		glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+-
+-		// edge color
+-		if (grab)
+-			glColor3f(1.f-m_EdgeColor[0],0.f,1.f-m_EdgeColor[2]);
+-		else if (sel)
+-			glColor3f(1.f-m_EdgeColor[0],1.f-m_EdgeColor[1],0.f);
+-		else
+-			glColor3f(m_EdgeColor[0],m_EdgeColor[1],m_EdgeColor[2]);
+-
+-		// superimpose edges on the mesh
+-		scene_ptr->get_polyhedron()->superimpose_edges(m_DrawVoronoiEdges);
+-
+-		glColor3f(m_EdgeColor[0],m_EdgeColor[1],m_EdgeColor[2]);
+-	}
+-	// end superimpose edges
+-
+-	// superimpose vertices
+-	if ((m_SuperimposeVertices || m_SuperimposeVerticesBig) && !(m_Moving && m_DrawBoundingBoxWhenMoving))
+-	{
+-		glColor3f(m_VertexColor[0],m_VertexColor[1],m_VertexColor[2]);
+-
+-		if (m_SuperimposeVertices)
+-			scene_ptr->get_polyhedron()->superimpose_vertices();
+-
+-		if (m_SuperimposeVerticesBig)
+-			scene_ptr->get_polyhedron()->superimpose_spheres(VBO_mode, 0.1);
+-	}
+-	// end superimpose vertices
+-
+-	// disable polygon offset
+-	if (m_SuperimposeEdges || m_SuperimposeVertices || m_SuperimposeVerticesBig)
+-	{
+-		glDisable(GL_POLYGON_OFFSET_FILL);
+-	}
+-
+-	// go back to previous rendering mode (line, edge, fill)
+-	if (m_SuperimposeEdges && !(m_Moving && m_DrawBoundingBoxWhenMoving))
+-	{
+-		glPolygonMode(GL_FRONT_AND_BACK,m_PolygonMode);
+-		if (m_Lighting)
+-		{
+-			glEnable(GL_LIGHTING);
+-		}
+-		else
+-		{
+-			glDisable(GL_LIGHTING);
+-		}
+-	}
+-
+-	// User's post_draw - Matrices protected - Attributes NOT protected
+-	if (((mainwindow *)getParent())->activeMdiChild() == this)
+-	{
+-		glPushMatrix();
+-			for (int p=0; p<lplugin.size(); p++)
+-				lplugin[p]->post_draw();
+-		glPopMatrix();
+-	}
+-
+-	glPopMatrix();
+-
+-	// Flush
+-    glFlush();
++//	if (axisIsDrawn() && sel)
++//		drawAxis();
++//
++//	// shading option
++//	if (m_SmoothShading)
++//	{
++//		glShadeModel(GL_SMOOTH);
++//	}
++//	else
++//	{
++//		glShadeModel(GL_FLAT);
++//	}
++//
++//	// culling option
++//	if (m_Culling)
++//		glEnable(GL_CULL_FACE);
++//	else
++//		glDisable(GL_CULL_FACE);
++//
++//	// polygon mode (point, line or fill)
++//	glPolygonMode(GL_FRONT_AND_BACK,m_PolygonMode);
++//
++//	if ( m_UseVertexColor || m_UseFaceColor )
++//	{
++//		// here
++//		//if ( !glIsEnabled(GL_COLOR_MATERIAL) )
++//		{
++//			glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
++//			glEnable(GL_COLOR_MATERIAL);
++//		}
++//	}
++//	else
++//	{
++//		// here
++//		//if ( glIsEnabled(GL_COLOR_MATERIAL) )
++//		{
++//			glDisable(GL_COLOR_MATERIAL);
++//			change_material(m_last_material);
++//		}
++//
++//		// set mesh color
++//		glColor3f(m_MeshColor[0],m_MeshColor[1],m_MeshColor[2]);
++//	}
++//
++//	// antialiasing
++//	if (m_Antialiasing)
++//	{
++//		glEnable(GL_LINE_SMOOTH);
++//		//glEnable(GL_BLEND);
++//		//glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
++//		glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
++//		glLineWidth(1.5f);
++//	}
++//	else
++//	{
++//		glDisable(GL_LINE_SMOOTH);
++//		//glDisable(GL_BLEND);
++//		glLineWidth(1.0f);
++//	}
++//
++//	// drawing
++//	glPushMatrix();
++//
++//	// User's pre_draw - Matrices protected - Attributes NOT protected
++//	if (((mainwindow *)getParent())->activeMdiChild() == this)
++//	{
++//		glPushMatrix();
++//			for (int p=0; p<lplugin.size(); p++)
++//				lplugin[p]->pre_draw();
++//		glPopMatrix();
++//	}
++//
++//	if (m_SuperimposeEdges || m_SuperimposeVertices || m_SuperimposeVerticesBig)
++//	{
++//		// enable polygon offset
++//		glEnable(GL_POLYGON_OFFSET_FILL);
++//		glPolygonOffset(3.0f,1.0f);
++//	}
++//
++//	// draw the mesh
++//	if ((m_Moving && m_DrawBoundingBoxWhenMoving) ||
++//			m_DrawBoundingBox)
++//	{
++//		glColor3f(1.0f,0.0f,0.0f);
++//		glDisable(GL_LIGHTING);
++//		scene_ptr->get_polyhedron()->gl_draw_bounding_box();
++//		glColor3f(m_MeshColor[0],m_MeshColor[1],m_MeshColor[2]); // new
++//
++//// temp MT
++//		/*double xmin, ymin, zmin, xmax, ymax, zmax;
++//		xmin = scene_ptr->get_polyhedron()->xmin();
++//		xmax = scene_ptr->get_polyhedron()->xmax();
++//		ymin = scene_ptr->get_polyhedron()->ymin();
++//		ymax = scene_ptr->get_polyhedron()->ymax();
++//		zmin = scene_ptr->get_polyhedron()->zmin();
++//		zmax = scene_ptr->get_polyhedron()->zmax();
++//
++//		glColor3f(0.f, 1.f, 0.f); // green
++//		glBegin(GL_LINES);
++//				glVertex3d(-0.01f, -0.01f, -0.01f);
++//				glVertex3d(1.01f, 1.01f, 1.01f);
++//		glEnd();*/
++//// temp MT
++//	}
++//
++//	// lighting option
++//	if (m_Lighting)
++//	{
++//		m_UseNormals = true;
++//		glEnable(GL_LIGHTING);
++//	}
++//	else
++//	{
++//		m_UseNormals = false;
++//		glDisable(GL_LIGHTING);
++//	}
++//
++//	if (!m_Moving || !m_DrawBoundingBoxWhenMoving)
++//	{
++//		scene_ptr->get_polyhedron()->gl_draw(m_SmoothShading, m_UseNormals, m_UseVertexColor, m_UseFaceColor, m_UseTexture);
++//
++//		if (show_normals)
++//		{
++//			glDisable(GL_LIGHTING);
++//				glColor3f(1.f, 0.f, 0.f);
++//				scene_ptr->get_polyhedron()->draw_normals();
++//			glEnable(GL_LIGHTING);
++//		}
++//	}
++//
++//	// disable lighting
++//	if (m_SuperimposeEdges || m_SuperimposeVertices || m_SuperimposeVerticesBig)
++//	{
++//        glDisable(GL_LIGHTING);
++//	}
++//
++//	// draw the mesh once again with a few options desactivated
++//	if (m_SuperimposeEdges && !(m_Moving && m_DrawBoundingBoxWhenMoving))
++//	{
++//		// set line mode
++//		glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
++//
++//		// edge color
++//		if (grab)
++//			glColor3f(1.f-m_EdgeColor[0],0.f,1.f-m_EdgeColor[2]);
++//		else if (sel)
++//			glColor3f(1.f-m_EdgeColor[0],1.f-m_EdgeColor[1],0.f);
++//		else
++//			glColor3f(m_EdgeColor[0],m_EdgeColor[1],m_EdgeColor[2]);
++//
++//		// superimpose edges on the mesh
++//		scene_ptr->get_polyhedron()->superimpose_edges(m_DrawVoronoiEdges);
++//
++//		glColor3f(m_EdgeColor[0],m_EdgeColor[1],m_EdgeColor[2]);
++//	}
++//	// end superimpose edges
++//
++//	// superimpose vertices
++//	if ((m_SuperimposeVertices || m_SuperimposeVerticesBig) && !(m_Moving && m_DrawBoundingBoxWhenMoving))
++//	{
++//		glColor3f(m_VertexColor[0],m_VertexColor[1],m_VertexColor[2]);
++//
++//		if (m_SuperimposeVertices)
++//			scene_ptr->get_polyhedron()->superimpose_vertices();
++//
++//		if (m_SuperimposeVerticesBig)
++//			scene_ptr->get_polyhedron()->superimpose_spheres(VBO_mode, 0.1);
++//	}
++//	// end superimpose vertices
++//
++//	// disable polygon offset
++//	if (m_SuperimposeEdges || m_SuperimposeVertices || m_SuperimposeVerticesBig)
++//	{
++//		glDisable(GL_POLYGON_OFFSET_FILL);
++//	}
++//
++//	// go back to previous rendering mode (line, edge, fill)
++//	if (m_SuperimposeEdges && !(m_Moving && m_DrawBoundingBoxWhenMoving))
++//	{
++//		glPolygonMode(GL_FRONT_AND_BACK,m_PolygonMode);
++//		if (m_Lighting)
++//		{
++//			glEnable(GL_LIGHTING);
++//		}
++//		else
++//		{
++//			glDisable(GL_LIGHTING);
++//		}
++//	}
++//
++//	// User's post_draw - Matrices protected - Attributes NOT protected
++//	if (((mainwindow *)getParent())->activeMdiChild() == this)
++//	{
++//		glPushMatrix();
++//			for (int p=0; p<lplugin.size(); p++)
++//				lplugin[p]->post_draw();
++//		glPopMatrix();
++//	}
++//
++//	glPopMatrix();
++//
++//	// Flush
++//    glFlush();
+ }
+ 
+ void Viewer::init()
+

@@ -1,0 +1,15 @@
+diff --git a/src/components/Analysis/Curvature/src/Curvature_Component.cpp b/src/components/Analysis/Curvature/src/Curvature_Component.cpp
+index b78ddbf..e51387c 100644
+--- a/src/components/Analysis/Curvature/src/Curvature_Component.cpp
++++ b/src/components/Analysis/Curvature/src/Curvature_Component.cpp
+@@ -355,8 +355,8 @@ void Curvature_Component::principal_curvature(PolyhedronPtr pMesh,bool IsGeod,do
+ 				}
+ 				else
+ 				{
+-					pVertex->KmaxCurv=-Valpro[1][1];
+-					pVertex->KminCurv=-Valpro[2][2];
++					pVertex->KmaxCurv=Valpro[2][2];
++					pVertex->KminCurv=Valpro[1][1];
+ 				}
+ 				
+ 

@@ -1,0 +1,29 @@
+## dataset 1
+/home/lovric_g/DATA_HD/quant-paper/10x/fromGWS-3/mouseE02crop_mph65_mpp08_mw10.raw
+/home/lovric_g/DATA_HD/quant-paper/10x/fromGWS-3/mouseE02crop_mph65_mpp08_mw15.raw
+/home/lovric_g/DATA_HD/quant-paper/10x/fromGWS-3/mouseE02crop_mph65_mpp08_mw20.raw
+/home/lovric_g/DATA_HD/quant-paper/10x/fromGWS-3/mouseE02crop_mph65_mpp10_mw15.raw
+/home/lovric_g/DATA_HD/quant-paper/10x/fromGWS-3/mouseE02crop_mph70_mpp08_mw15.raw
+/home/lovric_g/DATA_HD/quant-paper/10x/fromGWS-3/mouseE02crop_mph70_mpp10_mw15.raw
+/home/lovric_g/DATA_HD/quant-paper/10x/fromGWS-3/mouseE02crop_mph70_mpp15_mw15.raw
+/home/lovric_g/DATA_HD/quant-paper/10x/fromGWS-3/mouseE02crop_mph75_mpp10_mw15.raw
+
+## dataset 2
+/home/lovric_g/DATA_HD/quant-paper/10x/fromGWS-3/mouseE03crop_mph65_mpp08_mw10.raw
+/home/lovric_g/DATA_HD/quant-paper/10x/fromGWS-3/mouseE03crop_mph65_mpp08_mw15.raw
+/home/lovric_g/DATA_HD/quant-paper/10x/fromGWS-3/mouseE03crop_mph65_mpp08_mw20.raw
+/home/lovric_g/DATA_HD/quant-paper/10x/fromGWS-3/mouseE03crop_mph65_mpp10_mw15.raw
+/home/lovric_g/DATA_HD/quant-paper/10x/fromGWS-3/mouseE03crop_mph70_mpp08_mw15.raw
+/home/lovric_g/DATA_HD/quant-paper/10x/fromGWS-3/mouseE03crop_mph70_mpp10_mw15.raw
+/home/lovric_g/DATA_HD/quant-paper/10x/fromGWS-3/mouseE03crop_mph70_mpp15_mw15.raw
+/home/lovric_g/DATA_HD/quant-paper/10x/fromGWS-3/mouseE03crop_mph75_mpp10_mw15.raw
+
+## dataset 3
+/home/lovric_g/DATA_HD/quant-paper/10x/fromGWS-3/mouseE06crop_mph65_mpp08_mw10.raw
+/home/lovric_g/DATA_HD/quant-paper/10x/fromGWS-3/mouseE06crop_mph65_mpp08_mw15.raw
+/home/lovric_g/DATA_HD/quant-paper/10x/fromGWS-3/mouseE06crop_mph65_mpp08_mw20.raw
+/home/lovric_g/DATA_HD/quant-paper/10x/fromGWS-3/mouseE06crop_mph65_mpp10_mw15.raw
+/home/lovric_g/DATA_HD/quant-paper/10x/fromGWS-3/mouseE06crop_mph70_mpp08_mw15.raw
+/home/lovric_g/DATA_HD/quant-paper/10x/fromGWS-3/mouseE06crop_mph70_mpp10_mw15.raw
+/home/lovric_g/DATA_HD/quant-paper/10x/fromGWS-3/mouseE06crop_mph70_mpp15_mw15.raw
+/home/lovric_g/DATA_HD/quant-paper/10x/fromGWS-3/mouseE06crop_mph75_mpp10_mw15.raw

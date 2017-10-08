@@ -1,0 +1,84 @@
+diff --git a/src/components/Analysis/Curvature/src/mepp_component_Curvature_plugin.cpp b/src/components/Analysis/Curvature/src/mepp_component_Curvature_plugin.cpp
+index 99f9b39..fe87667 100644
+--- a/src/components/Analysis/Curvature/src/mepp_component_Curvature_plugin.cpp
++++ b/src/components/Analysis/Curvature/src/mepp_component_Curvature_plugin.cpp
+@@ -101,11 +101,38 @@ void mepp_component_Curvature_plugin::OnCurvature()
+ 		{
+ 			bool IsGeo;
+ 			double radius;
++
+ 			//char radiusChar[256];
+ 
+ 			SettingsDialog dial;
+ 			if (dial.exec() == QDialog::Accepted)
+ 			{
++				//-----------------------------------------------------
++				ofstream myfile2;
++				std::string filename = "/home/lovric_home/data/curvature-validation/testdata_vertices";
++				std::string final_filename;
++				bool filexist = true;
++				int kkk;
++				char numstr[21]; // enough to hold all numbers up to 64-bits
++
++				final_filename = filename + ".csv";
++				kkk = 1;
++
++				while(filexist){
++				if (FILE *file = fopen(final_filename.c_str(), "r")) {
++				        fclose(file);
++				        sprintf(numstr, "%d", kkk);
++				        final_filename = filename + numstr + ".csv";
++				        kkk = kkk +1;
++				        //return true;
++				    } else {
++				    	filexist = false;
++				        //return false;
++				    }
++				}
++				myfile2.open (final_filename.c_str());
++				//-----------------------------------------------------
++
+ 				QApplication::setOverrideCursor(Qt::WaitCursor);
+ 
+ 				//strcpy(radiusChar,dial.m_textRadius->GetValue().ToAscii());
+@@ -124,6 +151,40 @@ void mepp_component_Curvature_plugin::OnCurvature()
+ 				
+ 				component_ptr->principal_curvature(polyhedron_ptr,IsGeo,radius);
+ 
++				//-----------------------------------------------------
++				/* ADDON by G. Lovric:
++				 * should write the vertices coordinates to a textfile
++				 */
++				//int arr1[] = {1,2,3};
++				//int arr2[] = {3,5,6};
++				Vertex_iterator pVertex2 = NULL;
++				Point3d PP;
++				double curv_min;
++				double curv_max;
++
++				pVertex2 = polyhedron_ptr->vertices_begin();
++
++				//myfile2.open ("/home/lovric_home/data/curvatures/vertices.csv");
++//				myfile2.precision(15);  // changes precision for whole stream
++				for (pVertex2 = polyhedron_ptr->vertices_begin();
++				     pVertex2 != polyhedron_ptr->vertices_end();
++				     pVertex2++)
++				{
++					// get VERTEX-coordinates
++					PP = pVertex2->point() ;
++
++					// get MIN-curvature
++					curv_min = pVertex2->KminCurv;
++
++					// get MAX-curvature
++					curv_max = pVertex2->KmaxCurv;
++
++					myfile2 << int(PP[0]) << "," << int(PP[1]) << "," << int(PP[2]) <<  "," << curv_min << "," << curv_max << endl;
++				}
++				myfile2.close();
++				//-----------------------------------------------------
++
++
+ 				//m_frame->set_status_message(_T("Curvature...done"));
+ 				mw->statusBar()->showMessage(tr("Curvature is done"));
+ 

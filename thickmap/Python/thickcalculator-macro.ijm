@@ -1,0 +1,18 @@
+run("Image Sequence...", "open=/home/lovric_g/DATA_HD/quant-paper/10x/mE02_mph50_mpp05_mw15/05_ridged_threshed_mini2/0000.tif sort");
+run("Geometry to Distance Map", "threshold=128");
+selectWindow("05_ridged_threshed_mini2");
+close();
+selectWindow("05_ridged_threshed_mini2_EDT");
+run("Distance Map to Distance Ridge");
+selectWindow("05_ridged_threshed_mini2_EDT");
+close();
+selectWindow("05_ridged_threshed_mini2_EDT_DR");
+run("Distance Ridge to Local Thickness");
+selectWindow("05_ridged_threshed_mini2_EDT_DR");
+close();
+selectWindow("05_ridged_threshed_mini2_EDT_DR_LT");
+run("Local Thickness to Cleaned-Up Local Thickness");
+selectWindow("05_ridged_threshed_mini2_EDT_DR_LT");
+close();
+selectWindow("05_ridged_threshed_mini2_EDT_DR_LT_CL");
+saveAs("Raw Data", "/home/lovric_g/DATA_HD/quant-paper/10x/mE02_mph50_mpp05_mw15/05_ridged_threshed_mini2_lalala.raw");

@@ -1,0 +1,14 @@
+## dataset 1
+/home/lovric_g/DATA_HD/quant-paper/2x-4x/mouseB01crop_seg1_LocThk.raw
+/home/lovric_g/DATA_HD/quant-paper/2x-4x/mouseB01crop_seg2_LocThk.raw
+/home/lovric_g/DATA_HD/quant-paper/2x-4x/mouseB01crop_seg3_LocThk.raw
+
+## dataset 2
+/home/lovric_g/DATA_HD/quant-paper/2x-4x/mouseB02crop_seg1_LocThk.raw
+/home/lovric_g/DATA_HD/quant-paper/2x-4x/mouseB02crop_seg2_LocThk.raw
+/home/lovric_g/DATA_HD/quant-paper/2x-4x/mouseB02crop_seg3_LocThk.raw
+
+## dataset 3
+/home/lovric_g/DATA_HD/quant-paper/2x-4x/mouseB03crop_seg1_LocThk.raw
+/home/lovric_g/DATA_HD/quant-paper/2x-4x/mouseB03crop_seg2_LocThk.raw
+/home/lovric_g/DATA_HD/quant-paper/2x-4x/mouseB03crop_seg3_LocThk.raw
