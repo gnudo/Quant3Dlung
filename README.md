@@ -9,7 +9,7 @@ This tutorial is divided into three parts, whereas the 1st part (*Segmentation*)
 
 ## 2. Segmentation
 
-Let's assume the volume data is saved within single *tif*-files in a directory called `<data-folder-X>`. To segment the volume data according to the method described in [the paper](www.address-to-come.com), follow the steps below:
+Let's assume the volume data is saved within single *tif*-files in a directory called `<data-folder-X>`. To segment the volume data according to the method described in [the paper](http://doi.org/cddm), follow the steps below:
 1.   Go to `segmentation` subfolder
 2.   Go to `Matlab` subfolder.
 3.   Compile the Matlab c-function for your platform by running in Matlab: `mex morpho_operation.c`
@@ -70,7 +70,7 @@ The *Matlab* script `kerneldensity.m` requires a `RAW`-thicknessmap dataset and 
 
 #### 3.2.2. R
 
-The *R*-script `thick_density.R` follows the approach from the original paper. The approach is to investigate the influence of different conditions on the same dataset and then calculate the confidence levels for each dataset separately so that we can see whether the quantitative results are influenced by *finite size*-effects of *segmentation* parameters. Let's assume we have three lung pressures to investigate (10, 20, 30 cmH2O) and thus three original datasets. Now we run the segmentation algorithm with different parameters and apply the Thickness map analysis on each segmented volume. Thus we end up having multiple volumes per pressure. To do the density calculation in *R* do the following:
+The *R*-script `thick_density.R` follows the approach from the original [paper](http://doi.org/cddm). The approach is to investigate the influence of different conditions on the same dataset and then calculate the confidence levels for each dataset separately so that we can see whether the quantitative results are influenced by *finite size*-effects of *segmentation* parameters. Let's assume we have three lung pressures to investigate (10, 20, 30 cmH2O) and thus three original datasets. Now we run the segmentation algorithm with different parameters and apply the Thickness map analysis on each segmented volume. Thus we end up having multiple volumes per pressure. To do the density calculation in *R* do the following:
 1.   Create a helper file `data_info_<X>.txt` (see example) and put all absolute paths to the different datasets, obtained from different conditions
 2.   In `thick_density.R`, adapt the path to `data_info.txt`
 3.   Adapt the volume size *data_xyz*
