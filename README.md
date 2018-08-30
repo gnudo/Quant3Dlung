@@ -87,7 +87,7 @@ Another script (`thick_density_standalone.R`) has been created in case *R* runs 
 Again, we start by assuming an already segmented (binarized) dataset that is saved as a tif-stack consisting of single tif-files in a folder called `<seg-data-folder-X>`. As before, there are a few pre-conditions to be met before running/automatizing:
 
 
-*	  Download and compile MEPP with the given patch files (see Section 4.2.1).
+*	 Download and compile MEPP with the given patch files (see Section 4.2.1).
 *   Download and use the latest version of *VTK*. The best is download the source and compile it from scratch will all python-bindings.
 *   Make sure to export the respective python paths, by adapting the correct folder names (i.e. of the VTK installation) and running: `source curvature/vtkpython-gws-sl6.sh`
 
@@ -157,10 +157,10 @@ where *(X,Y,Z)* are the position vectors of each vertex and *kappa_1* and *kappa
 
 Since curvatures are calculated per vertex and each vertex is surrounded by a particular surface area patch, the areas of the surface patches need to be taken into account as weighting factors when calculating the 2D distribution of surface curvatures. First, however, the surface patch areas have to be extracted and added to the *CSV*-file. Here, a two-step approach is done:
 
-1.   Create a new *CSV*-file by adding the respective surface area patches: `python mapCellArea2VertexArea.py <FILE.OBJ> <ORIG-CURV.csv>`
+1.   Create a new *CSV*-file by adding the respective surface area patches: `python curvature/Python/mapCellArea2VertexArea.py <FILE.OBJ> <ORIG-CURV.csv>`
 2.   As a result, two new files will be created:
     * `<ORIG-CURV_NEW.csv>` (incorporating the surface patch area per vertex in addition to the two curvature values, as stated above)
-    * `<ORIG-CURV_CURV.csv>` (a new *PLY*-file with the curvature values for 3D rendering and visualization).
+    * `<ORIG-CURV_CURV.ply>` (a new *PLY*-file with the curvature values for 3D rendering and visualization).
 
 The two different distribution analyses are then further processed in *R*.
 
@@ -180,11 +180,11 @@ ISDs represent 2D probability density plots of the minimumum and maximum curvatu
 
 Simply run `curvature/GaussMeanCurvature.R` and adjust it like above.
 
-## 4. Validation
+## 5. Validation
 
 The validation includes the creation of synthetic data, i.e. spheres of different size and distribution that are embedded into a pre-defined volume. Subsequently, the thickness map and the curvature analysis can be run on this volumetric dataset and the results compared with the ground truth. In the created datasets, balls have gray value 255 and the bulk material has gray value 0.
 
-### 4.1. Data creation
+### 5.1. Data creation
 
 Run the script `createvolume.m` from the `validation` subfolder and adjust the following:
 
@@ -192,7 +192,7 @@ Run the script `createvolume.m` from the `validation` subfolder and adjust the f
    * `R_balls`: (array of) different ball radii in pixels
    * `p_balls`: (array of) percentual amount of ball counts
    
-### 4.2. Thickness map analysis
+### 5.2. Thickness map analysis
 
 Run the thickness map analysis as described in Sec. 2. Afterwards run the script `validation_thickness.R` to plot the results. Make sure to check the following points, before executing the script:
 
@@ -207,7 +207,7 @@ By running the script, the
 
 Finally , both results are plotted for comparison.
 
-### 4.3. Curvature analysis
+### 5.3. Curvature analysis
 
 For verifying the curvature results, the best way is to check whether the *measured* curvatures actually correctly represent the sphere radii as well as the percentual distribution (related to the surfaces of the different spheres radii) within the volume.
 
